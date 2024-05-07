@@ -1,0 +1,3 @@
+../thu_vien/dat.c:3:6:Tach_chuoi_UART	80	static
+../thu_vien/dat.c:46:6:Handles_UART_6_motor_AC	120	static
+../thu_vien/dat.c:105:6:Handles_UART_6_motor_Link	120	static
