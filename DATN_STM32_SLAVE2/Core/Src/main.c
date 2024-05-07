@@ -379,7 +379,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			}
 			if(CAN_Data_Rx[0] == '2')
 			{
-				flag_enable_send = true;
+				flag_send = true;
 			}
 			if(CAN_Data_Rx[0] == 'r')
 			{
@@ -487,12 +487,11 @@ int main(void)
 				float deltaAngle = Theta_temp/100 - previousAngle;
 				Control_Motor(deltaAngle);
 				previousAngle += deltaAngle;
-				flag_send = true;
 			}
 		}
 
-		// UPDATE ENCODER AC SERVO OR STEP MOTOR
-		updateEncoder();
+		// // UPDATE ENCODER AC SERVO OR STEP MOTOR
+		// updateEncoder();
 
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
 		if(flag_send == true && flag_enable_send == true)
@@ -500,7 +499,6 @@ int main(void)
 			//Down-flag for next time.
 			flag_send = false;
 			flag_enable_send = false;
-
 
 			if(Mode == AC_SERVO) EncodeDataAC(Data_Decode);
 			else EncodeDataDC(Data_Decode);
