@@ -2733,7 +2733,6 @@ int main(void)
  800186c:	2200      	movs	r2, #0
  800186e:	701a      	strb	r2, [r3, #0]
 
-
 			if(Mode == AC_SERVO) EncodeDataAC(Data_Decode);
  8001870:	4b25      	ldr	r3, [pc, #148]	; (8001908 <main+0x19c>)
  8001872:	781b      	ldrb	r3, [r3, #0]

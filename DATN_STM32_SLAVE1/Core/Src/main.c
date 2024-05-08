@@ -483,6 +483,7 @@ int main(void)
 				float deltaAngle = Theta_temp/100 - previousAngle;
 				Control_Motor(deltaAngle);
 				previousAngle += deltaAngle;
+				flag_send = true;
 			}
 		}
 
@@ -490,10 +491,11 @@ int main(void)
 		// updateEncoder();
 
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
-		if(flag_enable_send == true)
+		if(flag_send == true && flag_enable_send == true)
 		{
 			//Down-flag for next time.
 			flag_enable_send = false;
+			flag_send = false;
 
 			if(Mode == AC_SERVO) EncodeDataAC(Data_Decode);
 			else EncodeDataDC(Data_Decode);

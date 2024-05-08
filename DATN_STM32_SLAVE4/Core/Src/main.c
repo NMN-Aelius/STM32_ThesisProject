@@ -500,7 +500,6 @@ int main(void)
 			flag_send = false;
 			flag_enable_send = false;
 
-
 			if(Mode == AC_SERVO) EncodeDataAC(Data_Decode);
 			else EncodeDataDC(Data_Decode);
 

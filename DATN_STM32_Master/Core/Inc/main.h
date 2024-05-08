@@ -65,10 +65,6 @@ void Error_Handler(void);
 #define do_GPIO_Port GPIOD
 #define xanhd_Pin GPIO_PIN_15
 #define xanhd_GPIO_Port GPIOD
-#define R_Pin GPIO_PIN_8
-#define R_GPIO_Port GPIOA
-#define G_Pin GPIO_PIN_9
-#define G_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

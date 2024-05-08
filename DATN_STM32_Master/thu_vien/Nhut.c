@@ -1,12 +1,21 @@
 #include "Nhut.h"
 #include "stdio.h"
 
+//+00000a+00000b-00000c+00000d+00000e+00000fs
+//01----6
+//		 7-----13
+//		 		14----20
+//		 			   21----27
+//		 			   		  28----34
+//		 			   		  		 35----41
+//		 			   		  				4142
+
 #define START_1_MOTOR 1
 #define START_2_MOTOR 8
 #define START_3_MOTOR 15
 #define START_4_MOTOR 22
 #define START_5_MOTOR 29
-#define START_6_MOTOR 38
+#define START_6_MOTOR 36
 
 #define END_1_MOTOR 5
 #define END_2_MOTOR 12
@@ -15,7 +24,7 @@
 #define END_5_MOTOR 33
 #define END_6_MOTOR 40
 
-#define NUM_BYTES_DATA 5
+#define byteSign 5
 
 void Split_String_UART(uint8_t data_in[], uint8_t len, uint8_t t1[], uint8_t t2[], uint8_t t3[], uint8_t t4[], uint8_t t5[], uint8_t t6[])
 {
@@ -27,19 +36,20 @@ void Split_String_UART(uint8_t data_in[], uint8_t len, uint8_t t1[], uint8_t t2[
 	int position_f = 0;
 	for(int i = 0; i < len; i++)
 	{
-		switch(data_in[i]){
-		case 'a': position_a = i;
-		break;
-		case 'b': position_b = i;
-		break;
-		case 'c': position_c = i;
-		break;
-		case 'd': position_d = i;
-		break;
-		case 'e': position_e = i;
-		break;
-		case 'f': position_f = i;
-		break;
+		switch(data_in[i])
+		{
+			case 'a': position_a = i;
+			break;
+			case 'b': position_b = i;
+			break;
+			case 'c': position_c = i;
+			break;
+			case 'd': position_d = i;
+			break;
+			case 'e': position_e = i;
+			break;
+			case 'f': position_f = i;
+			break;
 		}
 	}
 	for(int i = 0; i < position_a; i++)
@@ -62,58 +72,82 @@ void Split_String_UART(uint8_t data_in[], uint8_t len, uint8_t t1[], uint8_t t2[
 }
 void Handles_UART_6_motor(uint8_t data_encoder_1_motor[],uint8_t data_encoder_2_motor[],uint8_t data_encoder_3_motor[],uint8_t data_encoder_4_motor[],uint8_t data_encoder_5_motor[],uint8_t data_encoder_6_motor[], uint8_t Data_Encoder[])
 {
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_1_MOTOR-1] = data_encoder_1_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_1_MOTOR; i <= END_1_MOTOR; i++)
 	{
 		char tem[12];
 		sprintf(&tem[0], "%d", data_encoder_1_motor[END_1_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_1_MOTOR-1] = data_encoder_1_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_1_MOTOR+1] = 'a';
 
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_2_MOTOR-1] = data_encoder_2_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_2_MOTOR; i <= END_2_MOTOR; i++)
 	{
 		char tem[12];
 		sprintf(&tem[0], "%d", data_encoder_2_motor[END_2_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_2_MOTOR-1] = data_encoder_2_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_2_MOTOR+1] = 'b';
 
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_3_MOTOR-1] = data_encoder_3_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_3_MOTOR; i <= END_3_MOTOR; i++)
 	{
 		char tem[12];
 		sprintf(&tem[0], "%d", data_encoder_3_motor[END_3_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_3_MOTOR-1] = data_encoder_3_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_3_MOTOR+1] = 'c';
 
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_4_MOTOR-1] = data_encoder_4_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_4_MOTOR; i <= END_4_MOTOR; i++)
 	{
 		char tem[12];
 		sprintf(&tem[0], "%d", data_encoder_4_motor[END_4_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_4_MOTOR] = data_encoder_4_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_4_MOTOR+1] = 'd';
 
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_5_MOTOR-1] = data_encoder_5_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_5_MOTOR; i <= END_5_MOTOR; i++)
 	{
 		char tem[12];
-		sprintf(&tem[0], "%d", data_encoder_5_motor[NUM_BYTES_DATA - i]);
+		sprintf(&tem[0], "%d", data_encoder_5_motor[END_5_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_5_MOTOR-1] = data_encoder_5_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_5_MOTOR+1] = 'e';
 
+	//TOTAL 7 BYTES
+	//Sign data 1 byte
+	Data_Encoder[START_6_MOTOR-1] = data_encoder_6_motor[byteSign];
+	//Number data 5 byte
 	for(int i = START_6_MOTOR; i <= END_6_MOTOR; i++)
 	{
 		char tem[12];
 		sprintf(&tem[0], "%d", data_encoder_6_motor[END_6_MOTOR - i]);
 		Data_Encoder[i] = tem[0];
 	}
-	Data_Encoder[START_6_MOTOR-1] = data_encoder_6_motor[NUM_BYTES_DATA];
+	//Syntax 1 byte
 	Data_Encoder[END_6_MOTOR+1] = 'f';
 
 	Data_Encoder[END_6_MOTOR+2] = 's';
