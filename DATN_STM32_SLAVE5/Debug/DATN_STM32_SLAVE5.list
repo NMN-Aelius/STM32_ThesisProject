@@ -1498,7 +1498,6 @@ void EncodeDataDC(uint8_t dataSend[])
  80010b6:	4b60      	ldr	r3, [pc, #384]	; (8001238 <EncodeDataDC+0x198>)
  80010b8:	2200      	movs	r2, #0
  80010ba:	701a      	strb	r2, [r3, #0]
-		//		float Theta = (float)(PosToDeg*DecodeData(&RxDataUart[5]));
 		float Position = (float)(DecodeData(&RxDataUart[5]));
  80010bc:	485f      	ldr	r0, [pc, #380]	; (800123c <EncodeDataDC+0x19c>)
  80010be:	f7ff ffd3 	bl	8001068 <DecodeData>
@@ -2884,11 +2883,11 @@ int main(void)
  8001a90:	2108      	movs	r1, #8
  8001a92:	483f      	ldr	r0, [pc, #252]	; (8001b90 <main+0x17c>)
  8001a94:	f001 fef6 	bl	8003884 <HAL_GPIO_WritePin>
+	while (1)
 	{
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		// UPDATE ENCODER AC SERVO OR STEP MOTOR
 		if(flag_timer1 == true)
  8001a98:	4b3e      	ldr	r3, [pc, #248]	; (8001b94 <main+0x180>)
  8001a9a:	781b      	ldrb	r3, [r3, #0]
@@ -2945,7 +2944,6 @@ int main(void)
  8001afa:	601a      	str	r2, [r3, #0]
 			}
 		}
-
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
 		if(flag_send == true && flag_enable_send == true)
  8001afc:	4b2a      	ldr	r3, [pc, #168]	; (8001ba8 <main+0x194>)

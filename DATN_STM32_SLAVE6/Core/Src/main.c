@@ -40,21 +40,14 @@ CAN_FilterTypeDef canfilterconfig;
 #define DC_MOTOR 1
 
 bool Mode = DC_MOTOR;
-
-//=============DEBUG
-struct DebugV
-{
-	uint16_t count; // for debug
-	uint32_t position; // for debug
-};
-
 //=============MOTOR
 #define GearboxAC_DtoP 4000*1/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
-#define PosToDeg 1/45.56424581005592 // convert position to angle
+#define PosToDeg 0.0015721622471439 // convert position to angle
 
-int Angle; //Current Angle
-float previousAngle = 0; // Update angle
+uint16_t Angle = 0; //Current Angle
+uint16_t resetAngle = 0;
+float previousAngle = 0;
 bool Run = false;
 //=============UART
 #define TxBufferSize 4  //Transmit Data
@@ -145,6 +138,7 @@ void ReadUart(uint8_t l_sAddress)
 	TxDataUart[0] = 0xFA;
 	TxDataUart[1] = l_sAddress;
 	TxDataUart[2] = 0x31; // Position read mode int32 (4 bytes data last)
+	TxDataUart[3] = 0;
 	TxDataUart[3] = getCheckSum(TxDataUart,TxBufferSize-1);
 
 	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
@@ -162,11 +156,12 @@ uint32_t DecodeData(uint8_t *input)
 //=================ENCODER DATA (Checked)
 void EncodeDataDC(uint8_t dataSend[])
 {
+	ReadUart(1);
 	if(Check_Data == 1) // du lieu hop le ?
 	{
-		float Theta = (float)(PosToDeg*DecodeData(&RxDataUart[5]));
-		Angle = Theta*100; // lam tron goc thanh kieu INT
 		Check_Data = 0;
+		float Position = (float)(DecodeData(&RxDataUart[5]));
+		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
 	}
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
@@ -217,6 +212,11 @@ void ForwardDC(uint16_t l_pulseIn, uint16_t timeDelay)
 		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
 		delay_us(timeDelay);
+		if(flag_send == true)
+		{
+			flag_send = false;
+			if(Mode == DC_MOTOR) EncodeDataDC(Data_Decode);
+		}
 	}
 }
 void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
@@ -228,6 +228,12 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
 		delay_us(timeDelay);
+
+		if(flag_send == true)
+		{
+			flag_send = false;
+			if(Mode == DC_MOTOR) EncodeDataDC(Data_Decode);
+		}
 	}
 }
 
@@ -297,7 +303,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize) == HAL_OK)
 	{
-		Flag_Uart = UART_OK;
 		if(RxDataUart[0] == 251 && RxDataUart[1] == 1 && RxDataUart [2] == 49)
 		{
 			Check_Data = 1;
@@ -321,7 +326,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 			memset(RxDataUart, 0x00,  RxBufferSize);
 			ReadUart(1);
-			Flag_Uart = UART_NOT_OK;
 		}
 	}
 }
@@ -490,8 +494,8 @@ int main(void)
 			}
 		}
 
-		// UPDATE ENCODER AC SERVO OR STEP MOTOR
-		updateEncoder();
+//		// UPDATE ENCODER AC SERVO OR STEP MOTOR
+//		updateEncoder();
 
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
 		if(flag_send == true && flag_enable_send == true)

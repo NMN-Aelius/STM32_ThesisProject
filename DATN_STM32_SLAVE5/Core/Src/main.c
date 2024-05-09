@@ -52,7 +52,7 @@ uint32_t position; // for debug
 
 uint16_t Angle = 0; //Current Angle
 uint16_t resetAngle = 0;
-float previousAngle = 0; // Update angle
+float previousAngle = 0;
 bool Run = false;
 //=============UART
 #define TxBufferSize 4  //Transmit Data
@@ -65,8 +65,6 @@ uint8_t TxDataUart[TxBufferSize];
 uint8_t RxDataUart[RxBufferSize];
 
 int sign; // xet dau cho goc tu step encoder
-
-bool Flag_Uart = UART_OK;
 
 //=============CAN
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
@@ -168,7 +166,6 @@ void EncodeDataDC(uint8_t dataSend[])
 	if(Check_Data == 1) // du lieu hop le ?
 	{
 		Check_Data = 0;
-		//		float Theta = (float)(PosToDeg*DecodeData(&RxDataUart[5]));
 		float Position = (float)(DecodeData(&RxDataUart[5]));
 		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
 	}
@@ -492,7 +489,6 @@ int main(void)
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-		// UPDATE ENCODER AC SERVO OR STEP MOTOR
 		if(flag_timer1 == true)
 		{
 			flag_timer1 = false;
@@ -505,7 +501,6 @@ int main(void)
 				previousAngle += deltaAngle;
 			}
 		}
-
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
 		if(flag_send == true && flag_enable_send == true)
 		{
