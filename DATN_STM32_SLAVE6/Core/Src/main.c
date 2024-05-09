@@ -50,7 +50,7 @@ struct DebugV
 
 //=============MOTOR
 #define GearboxAC_DtoP 4000*1/360 //Manual setup
-#define GearboxStep_DtoP 816/90 // gear box of step motor
+#define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 1/45.56424581005592 // convert position to angle
 
 int Angle; //Current Angle
