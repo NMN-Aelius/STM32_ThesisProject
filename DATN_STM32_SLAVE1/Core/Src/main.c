@@ -37,24 +37,22 @@ CAN_FilterTypeDef canfilterconfig;
 
 //=============MODE
 #define AC_SERVO 0
-#define DC_MOTOR 1
+#define STP_MOTOR 1
 
 bool Mode = AC_SERVO;
-
+uint8_t Position;
 //=============DEBUG
-struct DebugV
-{
-	uint16_t count; // for debug
-	uint32_t position; // for debug
-};
+uint16_t count; // for debug
+uint32_t position; // for debug
 
 //=============MOTOR
 #define GearboxAC_DtoP 4000*1/360 //Manual setup
-#define GearboxStep_DtoP 816/90 // gear box of step motor
-#define PosToDeg 1/45.56424581005592 // convert position to angle
+#define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
+#define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
-int Angle; //Current Angle
-float previousAngle = 0; // Update angle
+uint16_t Angle = 0; //Current Angle
+uint16_t resetAngle = 0;
+float previousAngle = 0;
 bool Run = false;
 //=============UART
 #define TxBufferSize 4  //Transmit Data
@@ -68,8 +66,6 @@ uint8_t RxDataUart[RxBufferSize];
 
 int sign; // xet dau cho goc tu step encoder
 
-bool Flag_Uart = UART_OK;
-
 //=============CAN
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
 uint32_t TxMailBox;
@@ -77,7 +73,7 @@ uint32_t TxMailBox;
 float pulseEnd = 0; //luu xung cho lan tiep
 bool Check_Data = 0; //kiem tra du lie
 
-uint8_t Data_Decode[6]; // Array temp for data send to master
+uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
 char Data_Saved[8]; //du lieu duoc luu vao sau khi nhan tu CAN
 bool flag_send = false; // cho phep gui du lieu
 bool flag_run = false;
@@ -145,6 +141,7 @@ void ReadUart(uint8_t l_sAddress)
 	TxDataUart[0] = 0xFA;
 	TxDataUart[1] = l_sAddress;
 	TxDataUart[2] = 0x31; // Position read mode int32 (4 bytes data last)
+	TxDataUart[3] = 0;
 	TxDataUart[3] = getCheckSum(TxDataUart,TxBufferSize-1);
 
 	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
@@ -162,11 +159,12 @@ uint32_t DecodeData(uint8_t *input)
 //=================ENCODER DATA (Checked)
 void EncodeDataDC(uint8_t dataSend[])
 {
+	ReadUart(1);
 	if(Check_Data == 1) // du lieu hop le ?
 	{
-		float Theta = (float)(PosToDeg*DecodeData(&RxDataUart[5]));
-		Angle = Theta*100; // lam tron goc thanh kieu INT
 		Check_Data = 0;
+		float Position = (float)(DecodeData(&RxDataUart[5]));
+		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
 	}
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
@@ -217,6 +215,12 @@ void ForwardDC(uint16_t l_pulseIn, uint16_t timeDelay)
 		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
 		delay_us(timeDelay);
+
+		if(flag_send == true)
+		{
+			flag_send = false;
+			if(Mode == STP_MOTOR) EncodeDataDC(Data_Decode);
+		}
 	}
 }
 void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
@@ -228,6 +232,12 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
 		delay_us(timeDelay);
+
+		if(flag_send == true)
+		{
+			flag_send = false;
+			if(Mode == STP_MOTOR) EncodeDataDC(Data_Decode);
+		}
 	}
 }
 
@@ -297,7 +307,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize) == HAL_OK)
 	{
-		Flag_Uart = UART_OK;
 		if(RxDataUart[0] == 251 && RxDataUart[1] == 1 && RxDataUart [2] == 49)
 		{
 			Check_Data = 1;
@@ -321,7 +330,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		{
 			memset(RxDataUart, 0x00,  RxBufferSize);
 			ReadUart(1);
-			Flag_Uart = UART_NOT_OK;
 		}
 	}
 }
@@ -369,18 +377,18 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			Data_Saved[3] = CAN_Data_Rx[3];
 			Data_Saved[4] = CAN_Data_Rx[4];
 			Data_Saved[5] = CAN_Data_Rx[5];
-			Data_Saved[6] = CAN_Data_Rx[6];
-			Data_Saved[7] = CAN_Data_Rx[7];
 			break;
 		case 0x000:
 			if(CAN_Data_Rx[0] == 's')
 			{
 				flag_run = true;
+				flag_send = true;
 			}
 			if(CAN_Data_Rx[0] == 'r')
 			{
 				TIM2->CNT=0;
 				ExternalPulse = 0;
+				resetAngle = Angle;
 				Angle = 0;
 				previousAngle = 0;
 			}
@@ -399,10 +407,10 @@ void updateEncoder()
 	}
 	else
 	{
-		if(Flag_Uart == UART_OK)
+		if(flag_enable_send == true)
 		{
+			flag_enable_send = false;
 			ReadUart(1);
-			Flag_Uart = UART_NOT_OK;
 		}
 	}
 }
@@ -483,19 +491,14 @@ int main(void)
 				float deltaAngle = Theta_temp/100 - previousAngle;
 				Control_Motor(deltaAngle);
 				previousAngle += deltaAngle;
-				flag_send = true;
 			}
 		}
-
-		// // UPDATE ENCODER AC SERVO OR STEP MOTOR
-		// updateEncoder();
-
 		//==========UPDATE INFO FOR MASTER AND SLAVE 2
 		if(flag_send == true && flag_enable_send == true)
 		{
 			//Down-flag for next time.
-			flag_enable_send = false;
 			flag_send = false;
+			flag_enable_send = false;
 
 			if(Mode == AC_SERVO) EncodeDataAC(Data_Decode);
 			else EncodeDataDC(Data_Decode);
@@ -509,7 +512,7 @@ int main(void)
 
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
-			RunCode = '2'; // RunCode for Motor2
+			RunCode = '2'; // RunCode for Motor3
 			HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox);
 		}
 	}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DATN_STM32_SLAVE3/DATN_STM32_SLAVE1.ioc&apos; to &apos;DATN_STM32_SLAVE3.ioc&apos;" description="Rename resource &apos;DATN_STM32_SLAVE1.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="DATN_STM32_SLAVE1.ioc" name="DATN_STM32_SLAVE3.ioc" stamp="1715363826051" updateReferences="true"/>
+</session>
