@@ -282,7 +282,7 @@ int main(void)
 				//=======================SET RUN SYNCHRONOUS
 
 				TX_CAN_HEADER.StdId = 0x000;
-				uint8_t Start_6_motor[8] = {'s', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+				uint8_t Start_6_motor[6] = {'s', ' ', ' ', ' ', ' ', ' '};
 				HAL_CAN_AddTxMessage(&hcan1, &TX_CAN_HEADER, Start_6_motor, &TxMailBox);
 			}
 			else if (Flag_Reset == true) //(checked)
@@ -290,19 +290,19 @@ int main(void)
 				Flag_Reset = false;
 				//----------------------------- Message reset----------------------
 				TX_CAN_HEADER.StdId = 0x000;
-				uint8_t Start_6_motor[8] = {'r', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+				uint8_t Start_6_motor[6] = {'r', ' ', ' ', ' ', ' ', ' '};
 				HAL_CAN_AddTxMessage(&hcan1, &TX_CAN_HEADER, Start_6_motor, &TxMailBox);
 			}
 		}
-		//		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true && motor6.flag_motor == true)
-		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true)
+		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true && motor6.flag_motor == true)
+			//		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true)
 		{
 			motor1.flag_motor = false;
 			motor2.flag_motor = false;
 			motor3.flag_motor = false;
 			motor4.flag_motor = false;
 			motor5.flag_motor = false;
-			//			motor6.flag_motor = false;
+			motor6.flag_motor = false;
 
 			Handles_UART_6_motor(motor1.data, motor2.data, motor3.data, motor4.data, motor5.data, motor6.data, Data_encoder);
 
@@ -404,9 +404,9 @@ static void MX_CAN1_Init(void)
 		Error_Handler();
 	}
 	/* -----------------------------CAN Transmit and Interrrupts ----------------------------- */
-	TX_CAN_HEADER.RTR=CAN_RTR_DATA; //Remote transmission request = Data frame
-	TX_CAN_HEADER.IDE=CAN_ID_STD; 	 //Standard Id (11 bits for the identifier)
-	TX_CAN_HEADER.DLC=6;
+	TX_CAN_HEADER.RTR = CAN_RTR_DATA; //Remote transmission request = Data frame
+	TX_CAN_HEADER.IDE = CAN_ID_STD; 	 //Standard Id (11 bits for the identifier)
+	TX_CAN_HEADER.DLC = 6;
 	/* USER CODE END CAN1_Init 2 */
 
 }
