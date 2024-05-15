@@ -512,7 +512,7 @@ int main(void)
 
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
-			RunCode = '2'; // RunCode for Motor3
+			RunCode = '2'; // RunCode for Motor2
 			HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox);
 		}
 	}

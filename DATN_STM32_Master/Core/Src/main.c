@@ -294,15 +294,15 @@ int main(void)
 				HAL_CAN_AddTxMessage(&hcan1, &TX_CAN_HEADER, Start_6_motor, &TxMailBox);
 			}
 		}
-		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true && motor6.flag_motor == true)
-			//		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true)
+		//		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true && motor6.flag_motor == true)
+		if(motor1.flag_motor == true)
 		{
 			motor1.flag_motor = false;
-			motor2.flag_motor = false;
-			motor3.flag_motor = false;
-			motor4.flag_motor = false;
-			motor5.flag_motor = false;
-			motor6.flag_motor = false;
+			//			motor2.flag_motor = false;
+			//			motor3.flag_motor = false;
+			//			motor4.flag_motor = false;
+			//			motor5.flag_motor = false;
+			//			motor6.flag_motor = false;
 
 			Handles_UART_6_motor(motor1.data, motor2.data, motor3.data, motor4.data, motor5.data, motor6.data, Data_encoder);
 
