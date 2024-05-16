@@ -4,3 +4,17 @@ motor3
 motor4
 motor5
 motor6
+Data_CAN_Rx
+Data_encoder
+hcan1
+theta1
+theta2
+theta3
+theta4
+theta5
+theta6
+Data_Saved
+flag_send
+flag_enable_send
+CAN_Data_Rx
+count

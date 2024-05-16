@@ -9,6 +9,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\nguye\Documents\Zalo Received Files\Chuong_trinh_do_an_STM_DCK\Chuong_trinh_do_an_STM_DCK"/>
 			<item value="D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE2"/>
 			<item value="D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE5"/>
 			<item value="D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK"/>
