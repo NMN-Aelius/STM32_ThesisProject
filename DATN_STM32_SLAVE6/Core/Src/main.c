@@ -377,11 +377,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			Data_Saved[3] = CAN_Data_Rx[3];
 			Data_Saved[4] = CAN_Data_Rx[4];
 			Data_Saved[5] = CAN_Data_Rx[5];
+			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 			break;
 		case 0x000:
 			if(CAN_Data_Rx[0] == 's')
 			{
 				flag_run = true;
+			}
+			if(CAN_Data_Rx[0] == '6')
+			{
 				flag_send = true;
 			}
 			if(CAN_Data_Rx[0] == 'r')
@@ -395,7 +399,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			break;
 		}
 	}
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 }
 
 void updateEncoder()
@@ -603,6 +606,7 @@ static void MX_CAN_Init(void)
 	TX_CAN_HEADER.RTR= CAN_RTR_DATA; //Remote transmission request = Data frame
 	TX_CAN_HEADER.IDE= CAN_ID_STD; 	 //Standard Id (11 bits for the identifier)
 	TX_CAN_HEADER.DLC= 6;
+	TX_CAN_HEADER.StdId = 0x020;
 	/* USER CODE END CAN_Init 2 */
 }
 

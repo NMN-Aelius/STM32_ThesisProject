@@ -74,7 +74,7 @@ float pulseEnd = 0; //luu xung cho lan tiep
 bool Check_Data = 0; //kiem tra du lie
 
 uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
-char Data_Saved[8]; //du lieu duoc luu vao sau khi nhan tu CAN
+char Data_Saved[6]; //du lieu duoc luu vao sau khi nhan tu CAN
 bool flag_send = false; // cho phep gui du lieu
 bool flag_run = false;
 
@@ -377,6 +377,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			Data_Saved[3] = CAN_Data_Rx[3];
 			Data_Saved[4] = CAN_Data_Rx[4];
 			Data_Saved[5] = CAN_Data_Rx[5];
+			HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 			break;
 		case 0x000:
 			if(CAN_Data_Rx[0] == 's')
@@ -395,7 +396,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			break;
 		}
 	}
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 }
 
 void updateEncoder()
@@ -590,6 +590,7 @@ static void MX_CAN_Init(void)
 		Error_Handler();
 	}
 	/* USER CODE BEGIN CAN_Init 2 */
+
 	canfilterconfig.FilterActivation = CAN_FILTER_ENABLE;
 	canfilterconfig.FilterBank = 1; // which filter bank to use from the assigned ones
 	canfilterconfig.FilterFIFOAssignment = CAN_FILTER_FIFO0; //
@@ -609,6 +610,7 @@ static void MX_CAN_Init(void)
 	TX_CAN_HEADER.RTR= CAN_RTR_DATA; //Remote transmission request = Data frame
 	TX_CAN_HEADER.IDE= CAN_ID_STD; 	 //Standard Id (11 bits for the identifier)
 	TX_CAN_HEADER.DLC= 6;
+	TX_CAN_HEADER.StdId = 0x001;
 	/* USER CODE END CAN_Init 2 */
 }
 

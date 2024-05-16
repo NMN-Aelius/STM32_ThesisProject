@@ -32,6 +32,7 @@ struct Parameter_motor
 }motor1, motor2, motor3, motor4, motor5, motor6;
 
 uint8_t Data_encoder[43] = {' '};
+uint8_t count = 0;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -86,6 +87,12 @@ static void MX_UART4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint8_t theta1[6] = {' ', ' ', ' ', ' ', ' ', ' '},
+		theta2[6] = {' ', ' ', ' ', ' ', ' ', ' '},
+		theta3[6] = {' ', ' ', ' ', ' ', ' ', ' '},
+		theta4[6] = {' ', ' ', ' ', ' ', ' ', ' '},
+		theta5[6] = {' ', ' ', ' ', ' ', ' ', ' '},
+		theta6[6] = {' ', ' ', ' ', ' ', ' ', ' '};
 
 //===============FUNCTION INTERRUPT TIMER1 (checked)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -245,12 +252,7 @@ int main(void)
 			if(Check_OKE == true && Flag_Reset == false)
 			{
 				Check_OKE = false;
-				uint8_t theta1[6] = {' ', ' ', ' ', ' ', ' ', ' '},
-						theta2[6] = {' ', ' ', ' ', ' ', ' ', ' '},
-						theta3[6] = {' ', ' ', ' ', ' ', ' ', ' '},
-						theta4[6] = {' ', ' ', ' ', ' ', ' ', ' '},
-						theta5[6] = {' ', ' ', ' ', ' ', ' ', ' '},
-						theta6[6] = {' ', ' ', ' ', ' ', ' ', ' '};
+
 				// Function handles (checked)
 				Split_String_UART(Data_UART_Saved, length, theta1, theta2, theta3, theta4, theta5, theta6);
 
@@ -294,15 +296,15 @@ int main(void)
 				HAL_CAN_AddTxMessage(&hcan1, &TX_CAN_HEADER, Start_6_motor, &TxMailBox);
 			}
 		}
-		//		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true&& motor5.flag_motor == true && motor6.flag_motor == true)
-		if(motor1.flag_motor == true)
+
+		if(motor1.flag_motor == true && motor2.flag_motor == true && motor3.flag_motor == true && motor4.flag_motor == true && motor5.flag_motor == true && motor6.flag_motor == true)
 		{
 			motor1.flag_motor = false;
-			//			motor2.flag_motor = false;
-			//			motor3.flag_motor = false;
-			//			motor4.flag_motor = false;
-			//			motor5.flag_motor = false;
-			//			motor6.flag_motor = false;
+			motor2.flag_motor = false;
+			motor3.flag_motor = false;
+			motor4.flag_motor = false;
+			motor5.flag_motor = false;
+			motor6.flag_motor = false;
 
 			Handles_UART_6_motor(motor1.data, motor2.data, motor3.data, motor4.data, motor5.data, motor6.data, Data_encoder);
 
@@ -392,10 +394,10 @@ static void MX_CAN1_Init(void)
 	canfilterconfig.FilterActivation = CAN_FILTER_ENABLE;
 	canfilterconfig.FilterBank = 1; // which filter bank to use from the assigned ones
 	canfilterconfig.FilterFIFOAssignment = CAN_FILTER_FIFO0;
-	canfilterconfig.FilterIdHigh = 0x0000 << 5;
-	canfilterconfig.FilterIdLow = 0x0000;
-	canfilterconfig.FilterMaskIdHigh = 0xff00 << 5;
-	canfilterconfig.FilterMaskIdLow = 0x0000;
+	canfilterconfig.FilterIdHigh = 0x000 << 5;
+	canfilterconfig.FilterIdLow = 0x000;
+	canfilterconfig.FilterMaskIdHigh = 0xf00 << 5;
+	canfilterconfig.FilterMaskIdLow = 0x000;
 	canfilterconfig.FilterMode = CAN_FILTERMODE_IDMASK;
 	canfilterconfig.FilterScale = CAN_FILTERSCALE_32BIT;
 	canfilterconfig.SlaveStartFilterBank = 14;
