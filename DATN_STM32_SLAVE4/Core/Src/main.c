@@ -46,11 +46,11 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 4000*1/360 //Manual setup
+#define GearboxAC_DtoP 36000/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
-uint16_t Angle = 0; //Current Angle
+int16_t Angle = 0; //Current Angle
 uint16_t resetAngle = 0;
 float previousAngle = 0;
 bool Run = false;
@@ -74,7 +74,8 @@ float pulseEnd = 0; //luu xung cho lan tiep
 bool Check_Data = 0; //kiem tra du lie
 
 uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
-char Data_Saved[8]; //du lieu duoc luu vao sau khi nhan tu CAN
+uint8_t RxSaveUart[6] = {'0'}; // Array temp for data send to master
+char Data_Saved[6]={'0'}; //du lieu duoc luu vao sau khi nhan tu CAN
 bool flag_send = false; // cho phep gui du lieu
 bool flag_run = false;
 
@@ -146,9 +147,9 @@ void ReadUart(uint8_t l_sAddress)
 
 	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
 }
-uint32_t DecodeData(uint8_t *input)
+int32_t DecodeData(uint8_t *input)
 {
-	uint32_t readValue = (int32_t)(
+	int32_t readValue = (int32_t)(
 			((uint32_t)input[0] << 24)    |
 			((uint32_t)input[1] << 16)    |
 			((uint32_t)input[2] << 8)     |
@@ -163,7 +164,7 @@ void EncodeDataDC(uint8_t dataSend[])
 	if(Check_Data == 1) // du lieu hop le ?
 	{
 		Check_Data = 0;
-		float Position = (float)(DecodeData(&RxDataUart[5]));
+		float Position = (float)(DecodeData(&RxSaveUart[5]));
 		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
 	}
 	int IntValue = abs(Angle/100);
@@ -176,13 +177,13 @@ void EncodeDataDC(uint8_t dataSend[])
 	dataSend[3] = IntValue/10%10;
 	dataSend[4] = IntValue/100%10;
 
-	if(sign < 0) dataSend[5] = '-';
+	if(Angle < 0) dataSend[5] = '-';
 	else 		  dataSend[5] = '+';
 }
 void EncodeDataAC(uint8_t dataSend[])
 {
 	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2);
-	Angle = ExternalPulse*GearboxAC_DtoP;// AC- x100: 4000 Pulse / Cycle
+	Angle = ExternalPulse;// AC-: 36000 Pulse / Cycle *100 to get 2 decimal
 
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
@@ -211,9 +212,9 @@ void ForwardDC(uint16_t l_pulseIn, uint16_t timeDelay)
 	HAL_GPIO_WritePin(DIR_GPIO_Port, DIR_Pin, GPIO_PIN_SET);
 	for(uint16_t i =0; i < l_pulseIn; i++)
 	{
-		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_RESET);
-		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
+		delay_us(timeDelay);
+		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_RESET);
 		delay_us(timeDelay);
 
 		if(flag_send == true)
@@ -228,9 +229,9 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 	HAL_GPIO_WritePin(DIR_GPIO_Port, DIR_Pin, GPIO_PIN_RESET);
 	for(uint16_t i = 0; i < l_pulseIn; i++)
 	{
-		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_RESET);
-		delay_us(timeDelay);
 		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_SET);
+		delay_us(timeDelay);
+		HAL_GPIO_WritePin(STP_GPIO_Port, STP_Pin, GPIO_PIN_RESET);
 		delay_us(timeDelay);
 
 		if(flag_send == true)
@@ -244,23 +245,23 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }
@@ -312,18 +313,13 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			Check_Data = 1;
 			if(RxDataUart[3] == 255)
 			{
-				RxDataUart[3] = (~RxDataUart[3]) & 0xFF;
-				RxDataUart[4] = (~RxDataUart[4]) & 0xFF;
-				RxDataUart[5] = (~RxDataUart[5]) & 0xFF;
-				RxDataUart[6] = (~RxDataUart[6]) & 0xFF;
-				RxDataUart[7] = (~RxDataUart[7]) & 0xFF;
-				RxDataUart[8] = (~RxDataUart[8]) & 0xFF;
-				RxDataUart[9] = getCheckSum(RxDataUart, RxBufferSize-1);
-				sign = -1;
-			}
-			else
-			{
-				sign = 1;
+				RxSaveUart[3] = RxDataUart[3];
+				RxSaveUart[4] = RxDataUart[4];
+				RxSaveUart[5] = RxDataUart[5];
+				RxSaveUart[6] = RxDataUart[6];
+				RxSaveUart[7] = RxDataUart[7];
+				RxSaveUart[8] = RxDataUart[8];
+				RxSaveUart[9] = getCheckSum(RxSaveUart, RxBufferSize-1);
 			}
 		}
 		else
@@ -354,7 +350,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 //=================TIMER2 EXTERNAL COUNTER MODE ENCODER (Checked)
-void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+//void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM2)
 	{
@@ -468,10 +465,13 @@ int main(void)
 
 	//========ENCODER
 	HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_1|TIM_CHANNEL_2);
+	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1|TIM_CHANNEL_2);
 
 	//========SET DEFAULT PIN MODE
-	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(purple_led1_GPIO_Port, purple_led1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(purple_led2_GPIO_Port, purple_led2_Pin, GPIO_PIN_SET);

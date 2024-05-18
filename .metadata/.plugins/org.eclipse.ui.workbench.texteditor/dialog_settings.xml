@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="flag_send"/>
+		<item key="selection" value="IC"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="flag_send"/>
-			<item value="flag_send = true;"/>
+			<item value="ic"/>
 			<item value="0x001"/>
-			<item value="0x002"/>
-			<item value="can"/>
-			<item value="xanhd"/>
-			<item value="Data_UART_Receive_Lenght"/>
-			<item value="flag_enable_send"/>
-			<item value="TX_CAN_HEADER.StdId = 0x001;"/>
-			<item value="canfilterconfig.FilterActivation"/>
-			<item value="0x020"/>
-			<item value="0x010"/>
-			<item value="0x008"/>
+			<item value="flag_send"/>
+			<item value="IC"/>
+			<item value="3"/>
+			<item value="0xffb"/>
 			<item value="0x004"/>
+			<item value="0x002"/>
+			<item value="Angle"/>
+			<item value="0x04"/>
+			<item value="0x4"/>
+			<item value="counter"/>
+			<item value="pulseSupply"/>
+			<item value="RxSaveUart"/>
+			<item value="RxDataUart"/>
 		</list>
 		<list key="replacehistory">
+			<item value="0x002"/>
+			<item value="0xffd"/>
+			<item value="RxSaveUart"/>
+			<item value="200"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1107"/>
-		<item key="DIALOG_Y_ORIGIN" value="265"/>
+		<item key="DIALOG_X_ORIGIN" value="1342"/>
+		<item key="DIALOG_Y_ORIGIN" value="657"/>
 		<item key="DIALOG_WIDTH" value="322"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI"/>

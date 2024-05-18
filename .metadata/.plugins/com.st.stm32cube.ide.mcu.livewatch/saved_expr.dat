@@ -18,3 +18,8 @@ flag_send
 flag_enable_send
 CAN_Data_Rx
 count
+pulseEnd
+pulseSupply
+dataSend
+Angle
+ExternalPulse
