@@ -46,7 +46,7 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 36000/360 //Manual setup
+#define GearboxAC_DtoP 1000/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -246,7 +246,7 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -257,7 +257,7 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -348,7 +348,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 //=================TIMER2 EXTERNAL COUNTER MODE ENCODER (Checked)
-//void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM2)
@@ -360,7 +359,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 //=================INTERRUPT CAN RECEIVE MESSAGE (Checked)
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
 	if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RX_CAN_HEADER, CAN_Data_Rx) == HAL_OK)
 	{
 		switch(RX_CAN_HEADER.StdId)
@@ -514,7 +512,10 @@ int main(void)
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
 			RunCode = '3'; // RunCode for Motor2
-			HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox);
+			if(HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox)==HAL_OK)
+			{
+				HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
+			}
 		}
 	}
 	/* USER CODE END 3 */

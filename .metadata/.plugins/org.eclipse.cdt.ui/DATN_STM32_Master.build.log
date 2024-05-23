@@ -1,4 +1,4 @@
-17:03:27 **** Incremental Build of configuration Debug for project DATN_STM32_Master ****
+19:26:15 **** Incremental Build of configuration Debug for project DATN_STM32_Master ****
 make -j16 all 
 arm-none-eabi-size  DATN_STM32_Master.elf 
    text	   data	    bss	    dec	    hex	filename
@@ -6,5 +6,5 @@ arm-none-eabi-size  DATN_STM32_Master.elf
 Finished building: default.size.stdout
  
 
-17:03:27 Build Finished. 0 errors, 0 warnings. (took 335ms)
+19:26:15 Build Finished. 0 errors, 0 warnings. (took 198ms)
 

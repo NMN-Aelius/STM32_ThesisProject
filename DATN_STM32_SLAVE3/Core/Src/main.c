@@ -46,7 +46,7 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 36000/360 //Manual setup
+#define GearboxAC_DtoP 1000/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -71,12 +71,12 @@ uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
 uint32_t TxMailBox;
 
 float pulseEnd = 0; //luu xung cho lan tiep
-int32_t pulseSupply=0;
+//int32_t pulseSupply=0; //debug
 bool Check_Data = 0; //kiem tra du lie
 
 uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
 uint8_t RxSaveUart[6] = {'0'};
-char Data_Saved[6] = {'0'}; //du lieu duoc luu vao sau khi nhan tu CAN
+char Data_Saved[6]; //du lieu duoc luu vao sau khi nhan tu CAN
 bool flag_send = false; // cho phep gui du lieu
 bool flag_run = false;
 
@@ -148,9 +148,9 @@ void ReadUart(uint8_t l_sAddress)
 
 	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
 }
-uint32_t DecodeData(uint8_t *input)
+int32_t DecodeData(uint8_t *input)
 {
-	uint32_t readValue = (int32_t)(
+	int32_t readValue = (int32_t)(
 			((uint32_t)input[0] << 24)    |
 			((uint32_t)input[1] << 16)    |
 			((uint32_t)input[2] << 8)     |
@@ -178,7 +178,7 @@ void EncodeDataDC(uint8_t dataSend[])
 	dataSend[3] = IntValue/10%10;
 	dataSend[4] = IntValue/100%10;
 
-	if(sign < 0) dataSend[5] = '-';
+	if(Angle < 0) dataSend[5] = '-';
 	else 		  dataSend[5] = '+';
 }
 void EncodeDataAC(uint8_t dataSend[])
@@ -242,20 +242,8 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 		}
 	}
 }
-
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
-{
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
-	for (int i = 0; i < pulse_in; i++)
-	{
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
-		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
-		delay_us(time_delay);
-	}
-}
-void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
 	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
@@ -264,27 +252,69 @@ void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 		delay_us(time_delay);
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
+//		count++;
 	}
 }
+void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
+{
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+	for (int i = 0; i < pulse_in; i++)
+	{
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
+		delay_us(time_delay);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+		delay_us(time_delay);
+//		count++;
+	}
+}
+
+////=================CONTROL AC SERVO (checked tempt)
+//void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
+//{
+//	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+//	for (int i = 0; i < pulse_in; i++)
+//	{
+//		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
+//		delay_us(time_delay);
+//		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
+//		delay_us(time_delay);
+//	}
+//}
+//void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
+//{
+//	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+//	for (int i = 0; i < pulse_in; i++)
+//	{
+//		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+//		HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
+//		delay_us(time_delay);
+//		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
+//		delay_us(time_delay);
+//	}
+//}
 
 //=================MODE CONTROL AC SERVO/DC MOTOR (Checked)
 void Control_Motor(float DELTA)
 {
 	if(Mode == AC_SERVO)
 	{
-		float deltaPulse = DELTA*100; // assume have decimal
+		float deltaPulse = DELTA*GearboxAC_DtoP; // assume have decimal
 		pulseEnd += deltaPulse - (int32_t)deltaPulse;
-//		int32_t pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
-		pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
+		int32_t pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
 
 		pulseEnd -= (int32_t)pulseEnd/1;
 		if(pulseSupply > 0)
 		{
-			Create_pulse_Forward_AC(abs(pulseSupply), 100);
+			Create_pulse_Forward_AC(abs(pulseSupply), 10);
 		}
 		else
 		{
-			Create_pulse_Inverse_AC(abs(pulseSupply), 100);
+			Create_pulse_Inverse_AC(abs(pulseSupply), 10);
 		}
 	}
 	else // DC Motor
@@ -296,11 +326,11 @@ void Control_Motor(float DELTA)
 		pulseEnd -= (int32_t)pulseEnd/1;
 		if(deltaPulse > 0)
 		{
-			ForwardDC(abs(pulseSupply), 100);
+			ForwardDC(abs(pulseSupply), 1000);
 		}
 		else
 		{
-			InverseDC(abs(pulseSupply), 100);
+			InverseDC(abs(pulseSupply), 1000);
 		}
 	}
 }
@@ -364,7 +394,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 //=================INTERRUPT CAN RECEIVE MESSAGE (Checked)
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
 	if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RX_CAN_HEADER, CAN_Data_Rx) == HAL_OK)
 	{
 		switch(RX_CAN_HEADER.StdId)
@@ -498,7 +527,7 @@ int main(void)
 				previousAngle += deltaAngle;
 			}
 		}
-		//==========UPDATE INFO FOR MASTER AND SLAVE 2
+		//==========UPDATE INFO FOR MASTER AND SLAVE 4
 		if(flag_send == true && flag_enable_send == true)
 		{
 			//Down-flag for next time.
@@ -518,7 +547,10 @@ int main(void)
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
 			RunCode = '4'; // RunCode for Motor4
-			HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox);
+			if(HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox)==HAL_OK)
+			{
+				HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
+			}
 		}
 	}
 	/* USER CODE END 3 */

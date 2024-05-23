@@ -63,8 +63,8 @@ bool Run = false;
 
 uint8_t TxDataUart[TxBufferSize];
 uint8_t RxDataUart[RxBufferSize];
+uint8_t RxSaveUart[RxBufferSize];
 
-int sign; // xet dau cho goc tu step encoder
 
 //=============CAN
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
@@ -74,7 +74,7 @@ float pulseEnd = 0; //luu xung cho lan tiep
 bool Check_Data = 0; //kiem tra du lie
 
 uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
-char Data_Saved[6]; //du lieu duoc luu vao sau khi nhan tu CAN
+char Data_Saved[6]= {'0'}; //du lieu duoc luu vao sau khi nhan tu CAN
 bool flag_send = false; // cho phep gui du lieu
 bool flag_run = false;
 
@@ -176,7 +176,7 @@ void EncodeDataDC(uint8_t dataSend[])
 	dataSend[3] = IntValue/10%10;
 	dataSend[4] = IntValue/100%10;
 
-	if(sign < 0) dataSend[5] = '-';
+	if(Angle < 0) dataSend[5] = '-';
 	else 		  dataSend[5] = '+';
 }
 void EncodeDataAC(uint8_t dataSend[])
@@ -243,7 +243,7 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -254,12 +254,12 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }
@@ -283,13 +283,13 @@ void Control_Motor(float DELTA)
 			Create_pulse_Inverse_AC(abs(pulseSupply), 100);
 		}
 	}
-	else // DC Motor
+	else // Step Motor
 	{
 		float deltaPulse = DELTA*GearboxStep_DtoP;
-		pulseEnd += deltaPulse - (int32_t)deltaPulse;
+		pulseEnd = pulseEnd + deltaPulse - (int32_t)deltaPulse;
 		int32_t pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
 
-		pulseEnd -= (int32_t)pulseEnd/1;
+		pulseEnd = pulseEnd - (int32_t)pulseEnd/1;
 		if(deltaPulse > 0)
 		{
 			ForwardDC(abs(pulseSupply), 100);
@@ -360,7 +360,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 //=================INTERRUPT CAN RECEIVE MESSAGE (Checked)
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
 	if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RX_CAN_HEADER, CAN_Data_Rx) == HAL_OK)
 	{
 		switch(RX_CAN_HEADER.StdId)
@@ -382,6 +381,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			if(CAN_Data_Rx[0] == '6')
 			{
 				flag_send = true;
+				HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
 			}
 			if(CAN_Data_Rx[0] == 'r')
 			{

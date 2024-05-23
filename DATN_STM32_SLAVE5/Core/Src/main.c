@@ -46,7 +46,7 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 36000/360 //Manual setup
+#define GearboxAC_DtoP 1000/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -63,8 +63,7 @@ bool Run = false;
 
 uint8_t TxDataUart[TxBufferSize];
 uint8_t RxDataUart[RxBufferSize];
-
-int sign; // xet dau cho goc tu step encoder
+uint8_t RxSaveUart[RxBufferSize];
 
 //=============CAN
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
@@ -176,7 +175,7 @@ void EncodeDataDC(uint8_t dataSend[])
 	dataSend[3] = IntValue/10%10;
 	dataSend[4] = IntValue/100%10;
 
-	if(sign < 0) dataSend[5] = '-';
+	if(Angle < 0) dataSend[5] = '-';
 	else 		  dataSend[5] = '+';
 }
 void EncodeDataAC(uint8_t dataSend[])
@@ -243,7 +242,7 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -254,12 +253,12 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }
@@ -348,7 +347,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 //=================TIMER2 EXTERNAL COUNTER MODE ENCODER (Checked)
-//void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM2)
@@ -360,7 +358,6 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 //=================INTERRUPT CAN RECEIVE MESSAGE (Checked)
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
 	if(HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RX_CAN_HEADER, CAN_Data_Rx) == HAL_OK)
 	{
 		switch(RX_CAN_HEADER.StdId)
@@ -461,15 +458,15 @@ int main(void)
 	HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize);
 	HAL_Delay(100);
 
-	//========ENCODER
+	//=======ENCODER
 	HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_1|TIM_CHANNEL_2);
 	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1|TIM_CHANNEL_2);
 
 	//========SET DEFAULT PIN MODE
-	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+//	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
 
 	HAL_GPIO_WritePin(purple_led1_GPIO_Port, purple_led1_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(purple_led2_GPIO_Port, purple_led2_Pin, GPIO_PIN_SET);
@@ -494,7 +491,7 @@ int main(void)
 				previousAngle += deltaAngle;
 			}
 		}
-		//==========UPDATE INFO FOR MASTER AND SLAVE 2
+		//==========UPDATE INFO FOR MASTER AND SLAVE 6
 		if(flag_send == true && flag_enable_send == true)
 		{
 			//Down-flag for next time.
@@ -514,7 +511,10 @@ int main(void)
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
 			RunCode = '6'; // RunCode for Motor6
-			HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox);
+			if(HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox)==HAL_OK)
+			{
+				HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);
+			}
 		}
 	}
 	/* USER CODE END 3 */
