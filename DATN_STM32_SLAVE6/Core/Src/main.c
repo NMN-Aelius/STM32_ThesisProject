@@ -46,7 +46,7 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 36000/360 //Manual setup
+#define GearboxAC_DtoP 1000/360 //Manual setup
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -254,12 +254,12 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }

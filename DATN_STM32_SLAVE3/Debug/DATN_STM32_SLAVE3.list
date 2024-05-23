@@ -2113,7 +2113,6 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
  8001564:	687a      	ldr	r2, [r7, #4]
  8001566:	429a      	cmp	r2, r3
  8001568:	d8e2      	bhi.n	8001530 <Create_pulse_Forward_AC+0x1c>
-//		count++;
 	}
 }
  800156a:	bf00      	nop
@@ -2169,7 +2168,6 @@ void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
  80015c8:	687a      	ldr	r2, [r7, #4]
  80015ca:	429a      	cmp	r2, r3
  80015cc:	d8e2      	bhi.n	8001594 <Create_pulse_Inverse_AC+0x1c>
-//		count++;
 	}
 }
  80015ce:	bf00      	nop

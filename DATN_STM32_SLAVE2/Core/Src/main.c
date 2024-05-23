@@ -279,11 +279,11 @@ void Control_Motor(float DELTA)
 		pulseEnd -= (int32_t)pulseEnd/1;
 		if(pulseSupply > 0)
 		{
-			Create_pulse_Forward_AC(abs(pulseSupply), 100);
+			Create_pulse_Forward_AC(abs(pulseSupply), 10);
 		}
 		else
 		{
-			Create_pulse_Inverse_AC(abs(pulseSupply), 100);
+			Create_pulse_Inverse_AC(abs(pulseSupply), 10);
 		}
 	}
 	else // DC Motor

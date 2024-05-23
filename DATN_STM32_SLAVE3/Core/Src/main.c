@@ -252,7 +252,6 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 		delay_us(time_delay);
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
-//		count++;
 	}
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
@@ -264,7 +263,6 @@ void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 		delay_us(time_delay);
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
-//		count++;
 	}
 }
 

@@ -257,12 +257,12 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
 	for (int i = 0; i < pulse_in; i++)
 	{
-		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
 		delay_us(time_delay);
-		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
 		delay_us(time_delay);
 	}
 }
@@ -279,11 +279,11 @@ void Control_Motor(float DELTA)
 		pulseEnd -= (int32_t)pulseEnd/1;
 		if(pulseSupply > 0)
 		{
-			Create_pulse_Forward_AC(abs(pulseSupply), 100);
+			Create_pulse_Forward_AC(abs(pulseSupply), 10);
 		}
 		else
 		{
-			Create_pulse_Inverse_AC(abs(pulseSupply), 100);
+			Create_pulse_Inverse_AC(abs(pulseSupply), 10);
 		}
 	}
 	else // DC Motor
