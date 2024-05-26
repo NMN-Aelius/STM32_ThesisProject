@@ -46,7 +46,9 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 1000/360 //Manual setup
+#define GearboxAC_DtoP 47200/360 //Manual setup 47.2 gear and 1000ppr (47200/360)
+#define EncoderResolution 47.2*200/360 // Encoder with 200ppr and 47.2 GearBox
+#define ConvertEtoA 360/(47.2*200)
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -183,8 +185,8 @@ void EncodeDataDC(uint8_t dataSend[])
 }
 void EncodeDataAC(uint8_t dataSend[])
 {
-	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2);
-	Angle = ExternalPulse;// AC-: 36000 Pulse / Cycle *100 to get 2 decimal
+	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2); // pulse input read
+	Angle = ExternalPulse*ConvertEtoA*100;// AC-: 200 Pulse / Cycle *100 to get 2 decimal
 
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);

@@ -3821,34 +3821,34 @@ LOAD C:/ST/STM32CubeIDE_1.14.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_line    0x000000000000ab57     0x1926 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
  .debug_line    0x000000000000c47d     0x28f5 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o
 
-.debug_str      0x0000000000000000    0x8d601
- .debug_str     0x0000000000000000    0x8a8c8 ./Core/Src/main.o
-                                      0x8ad67 (size before relaxing)
- .debug_str     0x000000000008a8c8      0x3e2 ./Core/Src/stm32f1xx_hal_msp.o
+.debug_str      0x0000000000000000    0x8d602
+ .debug_str     0x0000000000000000    0x8a8c9 ./Core/Src/main.o
+                                      0x8ad68 (size before relaxing)
+ .debug_str     0x000000000008a8c9      0x3e2 ./Core/Src/stm32f1xx_hal_msp.o
                                       0x866fb (size before relaxing)
- .debug_str     0x000000000008acaa      0x125 ./Core/Src/stm32f1xx_it.o
+ .debug_str     0x000000000008acab      0x125 ./Core/Src/stm32f1xx_it.o
                                       0x86371 (size before relaxing)
- .debug_str     0x000000000008adcf       0x7e ./Core/Src/system_stm32f1xx.o
+ .debug_str     0x000000000008add0       0x7e ./Core/Src/system_stm32f1xx.o
                                       0x857a1 (size before relaxing)
- .debug_str     0x000000000008ae4d       0x34 ./Core/Startup/startup_stm32f103c8tx.o
+ .debug_str     0x000000000008ae4e       0x34 ./Core/Startup/startup_stm32f103c8tx.o
                                          0x79 (size before relaxing)
- .debug_str     0x000000000008ae81      0x367 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
+ .debug_str     0x000000000008ae82      0x367 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
                                       0x85ed4 (size before relaxing)
- .debug_str     0x000000000008b1e8      0x3d3 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.o
+ .debug_str     0x000000000008b1e9      0x3d3 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_can.o
                                       0x85fa1 (size before relaxing)
- .debug_str     0x000000000008b5bb      0x262 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
+ .debug_str     0x000000000008b5bc      0x262 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
                                       0x85e20 (size before relaxing)
- .debug_str     0x000000000008b81d      0x230 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.o
+ .debug_str     0x000000000008b81e      0x230 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_dma.o
                                       0x85b4a (size before relaxing)
- .debug_str     0x000000000008ba4d      0x2ce ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
+ .debug_str     0x000000000008ba4e      0x2ce ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
                                       0x85b27 (size before relaxing)
- .debug_str     0x000000000008bd1b      0x229 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
+ .debug_str     0x000000000008bd1c      0x229 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
                                       0x85bd0 (size before relaxing)
- .debug_str     0x000000000008bf44      0xc6f ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
+ .debug_str     0x000000000008bf45      0xc6f ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
                                       0x86bc2 (size before relaxing)
- .debug_str     0x000000000008cbb3      0x493 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
+ .debug_str     0x000000000008cbb4      0x493 ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
                                       0x863de (size before relaxing)
- .debug_str     0x000000000008d046      0x5bb ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o
+ .debug_str     0x000000000008d047      0x5bb ./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o
                                       0x86241 (size before relaxing)
 
 .debug_frame    0x0000000000000000     0x3f44

@@ -1,21 +1,290 @@
-18:34:47 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE1 ****
+19:37:13 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+19:42:05 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE1 ****
 make -j16 all 
 arm-none-eabi-size  DATN_STM32_SLAVE1.elf 
    text	   data	    bss	    dec	    hex	filename
   23740	    116	   2364	  26220	   666c	DATN_STM32_SLAVE1.elf
 Finished building: default.size.stdout
  
-18:36:42 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE1 ****
+19:42:36 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE2.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE2\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE2.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE2.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE2.elf  > "DATN_STM32_SLAVE2.list"
+   text	   data	    bss	    dec	    hex	filename
+  23752	    116	   2364	  26232	   6678	DATN_STM32_SLAVE2.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE2.elf  "DATN_STM32_SLAVE2.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE2.hex
+ 
+Finished building: DATN_STM32_SLAVE2.list
+ 
+19:42:58 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+Finished building: default.size.stdout
+ 
+19:48:13 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+19:48:45 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE2.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE2\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE2.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE2.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE2.elf  > "DATN_STM32_SLAVE2.list"
+   text	   data	    bss	    dec	    hex	filename
+  23752	    116	   2364	  26232	   6678	DATN_STM32_SLAVE2.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE2.elf  "DATN_STM32_SLAVE2.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE2.hex
+ 
+Finished building: DATN_STM32_SLAVE2.list
+ 
+19:49:04 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE1 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE1.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE1\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE1.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE1.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE1.elf  > "DATN_STM32_SLAVE1.list"
+   text	   data	    bss	    dec	    hex	filename
+  23740	    116	   2364	  26220	   666c	DATN_STM32_SLAVE1.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE1.elf  "DATN_STM32_SLAVE1.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE1.hex
+ 
+Finished building: DATN_STM32_SLAVE1.list
+ 
+20:27:18 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+20:45:08 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+20:51:10 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+20:54:06 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+20:56:51 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23764	    116	   2364	  26244	   6684	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+08:57:50 **** Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+   text	   data	    bss	    dec	    hex	filename
+  23784	    116	   2364	  26264	   6698	DATN_STM32_SLAVE3.elf
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+09:31:22 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+   text	   data	    bss	    dec	    hex	filename
+  23784	    116	   2364	  26264	   6698	DATN_STM32_SLAVE3.elf
+Finished building: default.size.stdout
+ 
+09:59:20 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE3 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE3.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE3\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE3.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE3.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE3.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE3.elf  > "DATN_STM32_SLAVE3.list"
+   text	   data	    bss	    dec	    hex	filename
+  23836	    116	   2364	  26316	   66cc	DATN_STM32_SLAVE3.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE3.elf  "DATN_STM32_SLAVE3.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE3.hex
+ 
+Finished building: DATN_STM32_SLAVE3.list
+ 
+10:31:23 **** Build of configuration Debug for project DATN_STM32_SLAVE2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE2.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE2\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE2.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE2.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE2.elf  > "DATN_STM32_SLAVE2.list"
+   text	   data	    bss	    dec	    hex	filename
+  23752	    116	   2364	  26232	   6678	DATN_STM32_SLAVE2.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE2.elf  "DATN_STM32_SLAVE2.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE2.hex
+ 
+Finished building: DATN_STM32_SLAVE2.list
+ 
+10:31:46 **** Build of configuration Debug for project DATN_STM32_SLAVE1 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE1.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE1\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE1.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE1.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE1.elf  > "DATN_STM32_SLAVE1.list"
+   text	   data	    bss	    dec	    hex	filename
+  23740	    116	   2364	  26220	   666c	DATN_STM32_SLAVE1.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE1.elf  "DATN_STM32_SLAVE1.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE1.hex
+ 
+Finished building: DATN_STM32_SLAVE1.list
+ 
+10:32:51 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE1 ****
 make -j16 all 
 arm-none-eabi-size  DATN_STM32_SLAVE1.elf 
    text	   data	    bss	    dec	    hex	filename
   23740	    116	   2364	  26220	   666c	DATN_STM32_SLAVE1.elf
 Finished building: default.size.stdout
  
-18:37:06 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE2 ****
+11:00:43 **** Build of configuration Debug for project DATN_STM32_SLAVE2 ****
+make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F103xB -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "DATN_STM32_SLAVE2.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\DATN_STM32_SLAVE2\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="DATN_STM32_SLAVE2.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: DATN_STM32_SLAVE2.elf
+ 
+arm-none-eabi-size  DATN_STM32_SLAVE2.elf 
+arm-none-eabi-objdump -h -S DATN_STM32_SLAVE2.elf  > "DATN_STM32_SLAVE2.list"
+   text	   data	    bss	    dec	    hex	filename
+  23808	    116	   2364	  26288	   66b0	DATN_STM32_SLAVE2.elf
+arm-none-eabi-objcopy  -O ihex DATN_STM32_SLAVE2.elf  "DATN_STM32_SLAVE2.hex"
+Finished building: default.size.stdout
+ 
+Finished building: DATN_STM32_SLAVE2.hex
+ 
+Finished building: DATN_STM32_SLAVE2.list
+ 
+11:12:13 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE2 ****
 make -j16 all 
 arm-none-eabi-size  DATN_STM32_SLAVE2.elf 
    text	   data	    bss	    dec	    hex	filename
-  23752	    116	   2364	  26232	   6678	DATN_STM32_SLAVE2.elf
+  23808	    116	   2364	  26288	   66b0	DATN_STM32_SLAVE2.elf
 Finished building: default.size.stdout
  

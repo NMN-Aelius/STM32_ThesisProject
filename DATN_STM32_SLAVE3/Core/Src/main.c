@@ -46,7 +46,9 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 1000/360 //Manual setup
+#define GearboxAC_DtoP 954.22667 //Manual setup 47.2 gear + 7.1567 belt gear and 1000ppr (7.1567*48*1000/360)
+#define EncoderResolution 343.5216*200/360 // Encoder with 200ppr and 47.2 gear + 7.1567 belt gear
+#define ConvertEtoA 360/(343.5216*200)
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -63,9 +65,6 @@ bool Run = false;
 
 uint8_t TxDataUart[TxBufferSize];
 uint8_t RxDataUart[RxBufferSize];
-
-int sign; // xet dau cho goc tu step encoder
-
 //=============CAN
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
 uint32_t TxMailBox;
@@ -183,8 +182,8 @@ void EncodeDataDC(uint8_t dataSend[])
 }
 void EncodeDataAC(uint8_t dataSend[])
 {
-	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2);
-	Angle = ExternalPulse;// AC-: 36000 Pulse / Cycle *100 to get 2 decimal
+	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2); //pulse input read
+	Angle = ExternalPulse*ConvertEtoA*100;// AC-: 200 Pulse / Cycle. With gear 7.1567*48*100 to get 2 decimal
 
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
@@ -266,36 +265,6 @@ void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 	}
 }
 
-////=================CONTROL AC SERVO (checked tempt)
-//void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
-//{
-//	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
-//	for (int i = 0; i < pulse_in; i++)
-//	{
-//		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
-//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_SET);
-//		delay_us(time_delay);
-//		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
-//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
-//		delay_us(time_delay);
-//	}
-//}
-//void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
-//{
-//	HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_SET);
-//	for (int i = 0; i < pulse_in; i++)
-//	{
-//		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
-//		HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
-//		delay_us(time_delay);
-//		HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
-//		HAL_GPIO_WritePin(GPIOB, PG_Pin, GPIO_PIN_RESET);
-//		delay_us(time_delay);
-//	}
-//}
-
 //=================MODE CONTROL AC SERVO/DC MOTOR (Checked)
 void Control_Motor(float DELTA)
 {
@@ -324,11 +293,11 @@ void Control_Motor(float DELTA)
 		pulseEnd -= (int32_t)pulseEnd/1;
 		if(deltaPulse > 0)
 		{
-			ForwardDC(abs(pulseSupply), 1000);
+			ForwardDC(abs(pulseSupply), 100);
 		}
 		else
 		{
-			InverseDC(abs(pulseSupply), 1000);
+			InverseDC(abs(pulseSupply), 100);
 		}
 	}
 }
