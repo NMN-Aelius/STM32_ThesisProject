@@ -1259,8 +1259,8 @@ int main(void)
  8000b20:	4825      	ldr	r0, [pc, #148]	; (8000bb8 <main+0x320>)
  8000b22:	f004 f941 	bl	8004da8 <Handles_UART_6_motor>
 
-			HAL_UART_Transmit(&huart4, Data_encoder, 43, 5);
- 8000b26:	2305      	movs	r3, #5
+			HAL_UART_Transmit(&huart4, Data_encoder, 43, 7);
+ 8000b26:	2307      	movs	r3, #7
  8000b28:	222b      	movs	r2, #43	; 0x2b
  8000b2a:	491d      	ldr	r1, [pc, #116]	; (8000ba0 <main+0x308>)
  8000b2c:	4801      	ldr	r0, [pc, #4]	; (8000b34 <main+0x29c>)

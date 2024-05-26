@@ -308,7 +308,7 @@ int main(void)
 
 			Handles_UART_6_motor(motor1.data, motor2.data, motor3.data, motor4.data, motor5.data, motor6.data, Data_encoder);
 
-			HAL_UART_Transmit(&huart4, Data_encoder, 43, 5);
+			HAL_UART_Transmit(&huart4, Data_encoder, 43, 7);
 		}
 	}
   /* USER CODE END 3 */
