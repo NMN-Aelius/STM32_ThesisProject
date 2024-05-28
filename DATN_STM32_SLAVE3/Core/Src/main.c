@@ -279,10 +279,11 @@ void Control_Motor(float DELTA)
 		{
 			Create_pulse_Forward_AC(abs(pulseSupply), 10);
 		}
-		else
+		else if(pulseSupply < 0)
 		{
 			Create_pulse_Inverse_AC(abs(pulseSupply), 10);
 		}
+		else;
 	}
 	else // DC Motor
 	{
@@ -291,14 +292,15 @@ void Control_Motor(float DELTA)
 		int32_t pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
 
 		pulseEnd -= (int32_t)pulseEnd/1;
-		if(deltaPulse > 0)
+		if(pulseSupply > 0)
 		{
 			ForwardDC(abs(pulseSupply), 100);
 		}
-		else
+		else if(pulseSupply < 0)
 		{
 			InverseDC(abs(pulseSupply), 100);
 		}
+		else;
 	}
 }
 
@@ -396,22 +398,6 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 	}
 }
 
-void updateEncoder()
-{
-	if(Mode == AC_SERVO)
-	{
-		// Update the value of counter encoder
-		ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2);
-	}
-	else
-	{
-		if(flag_enable_send == true)
-		{
-			flag_enable_send = false;
-			ReadUart(1);
-		}
-	}
-}
 /* USER CODE END 0 */
 
 /**
