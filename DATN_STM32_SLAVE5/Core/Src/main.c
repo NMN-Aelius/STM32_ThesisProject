@@ -35,6 +35,8 @@ CAN_TxHeaderTypeDef TX_CAN_HEADER;
 CAN_RxHeaderTypeDef RX_CAN_HEADER;
 CAN_FilterTypeDef canfilterconfig;
 
+//=============SLAVE 5
+
 //=============MODE
 #define AC_SERVO 0
 #define STP_MOTOR 1
@@ -49,8 +51,8 @@ uint32_t position; // for debug
 #define GearboxAC_DtoP 15*1000/360 //Manual setup
 #define EncoderResolution 15*200/360 // Encoder with 200ppr and 15 gearbox
 #define ConvertEtoA 0.12 // 360/(15*200)
-#define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
-#define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
+#define GearboxStep_DtoP 3264*13.7*5.61/360 // gear box of step motor
+#define PosToDeg 0.0015721622471439/5.61 // convert position to angle 90/57223
 
 //float Theta_temp=0; //for debug
 //float deltaAngle=0;
@@ -498,7 +500,6 @@ int main(void)
 				flag_run = false;
 				float Theta_temp = atoi(Data_Saved);
 				float deltaAngle = Theta_temp/100 - previousAngle;
-				//				Control_Motor(-10);
 				Control_Motor(deltaAngle);
 				previousAngle += deltaAngle;
 			}
@@ -521,6 +522,7 @@ int main(void)
 			{
 				HAL_GPIO_TogglePin(purple_led2_GPIO_Port, purple_led2_Pin);
 			}
+			delay_us(300);
 
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;

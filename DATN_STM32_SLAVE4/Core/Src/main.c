@@ -46,9 +46,9 @@ uint16_t count; // for debug
 uint32_t position; // for debug
 
 //=============MOTOR
-#define GearboxAC_DtoP 15*1000/360 //Manual setup
-#define EncoderResolution 15*200/360 // Encoder with 200ppr and 15 gearbox
-#define ConvertEtoA 0.12 // 360/(15*200)
+#define GearboxAC_DtoP 15000/360 //Manual setup 15 gear and 1000ppr (15*1000/360)
+#define EncoderResolution 15*200/360 // Encoder with 200ppr and 47.2 GearBox
+#define ConvertEtoA 360/(15*200)
 #define GearboxStep_DtoP 3264*13.7/360 // gear box of step motor
 #define PosToDeg 0.0015721622471439 // convert position to angle 90/57223
 
@@ -72,7 +72,8 @@ int sign; // xet dau cho goc tu step encoder
 uint8_t CAN_Data_Rx[6]; // du lieu nhan tu can
 uint32_t TxMailBox;
 
-float pulseEnd = 0; //luu xung cho lan tiep
+float pulseEnd = 0; //luu xung ho lan tiep
+//int32_t pulseSupply=0;
 bool Check_Data = 0; //kiem tra du lie
 
 uint8_t Data_Decode[6] = {'0'}; // Array temp for data send to master
@@ -184,8 +185,8 @@ void EncodeDataDC(uint8_t dataSend[])
 }
 void EncodeDataAC(uint8_t dataSend[])
 {
-	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2); // Numbers input pulse
-	Angle = -ExternalPulse*ConvertEtoA*100;// AC-: 200 Pulse / Cycle * 15 Gear Box * 100 to get 2 decimal
+	ExternalPulse = __HAL_TIM_GET_COUNTER(&htim2); // pulse input read
+	Angle = -ExternalPulse*ConvertEtoA*100;// AC-: 200 Pulse / Cycle *100 to get 2 decimal
 
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
@@ -247,7 +248,7 @@ void InverseDC(uint16_t l_pulseIn, uint16_t timeDelay)
 //=================CONTROL AC SERVO (checked tempt)
 void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_SET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -258,7 +259,7 @@ void Create_pulse_Forward_AC(uint32_t pulse_in, uint32_t time_delay)
 }
 void Create_pulse_Inverse_AC(uint32_t pulse_in, uint32_t time_delay)
 {
-	HAL_GPIO_WritePin(GPIOB, NP_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, NG_Pin, GPIO_PIN_RESET);
 	for (int i = 0; i < pulse_in; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, PP_Pin, GPIO_PIN_RESET);
@@ -273,7 +274,7 @@ void Control_Motor(float DELTA)
 {
 	if(Mode == AC_SERVO)
 	{
-		float deltaPulse = DELTA*GearboxAC_DtoP;
+		float deltaPulse = DELTA*GearboxAC_DtoP; //36000 XUNG/VONG
 		pulseEnd += deltaPulse - (int32_t)deltaPulse;
 		int32_t pulseSupply = deltaPulse + (int32_t)pulseEnd/1;
 
@@ -315,20 +316,17 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		if(RxDataUart[0] == 251 && RxDataUart[1] == 1 && RxDataUart [2] == 49)
 		{
 			Check_Data = 1;
-			if(RxDataUart[3] == 255)
-			{
-				RxSaveUart[3] = RxDataUart[3];
-				RxSaveUart[4] = RxDataUart[4];
-				RxSaveUart[5] = RxDataUart[5];
-				RxSaveUart[6] = RxDataUart[6];
-				RxSaveUart[7] = RxDataUart[7];
-				RxSaveUart[8] = RxDataUart[8];
-				RxSaveUart[9] = getCheckSum(RxSaveUart, RxBufferSize-1);
-			}
+			RxSaveUart[3] = RxDataUart[3];
+			RxSaveUart[4] = RxDataUart[4];
+			RxSaveUart[5] = RxDataUart[5];
+			RxSaveUart[6] = RxDataUart[6];
+			RxSaveUart[7] = RxDataUart[7];
+			RxSaveUart[8] = RxDataUart[8];
+			RxSaveUart[9] = getCheckSum(RxDataUart, RxBufferSize-1);
 		}
 		else
 		{
-			memset(RxDataUart, 0x00,  RxBufferSize);
+			memset(RxSaveUart, 0x00,  RxBufferSize);
 			ReadUart(1);
 		}
 	}
@@ -354,7 +352,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 //=================TIMER2 EXTERNAL COUNTER MODE ENCODER (Checked)
-//void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM2)
@@ -400,6 +397,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}
 }
+
 /* USER CODE END 0 */
 
 /**
@@ -482,7 +480,7 @@ int main(void)
 				previousAngle += deltaAngle;
 			}
 		}
-		//==========UPDATE INFO FOR MASTER AND SLAVE 5
+		//==========UPDATE INFO FOR MASTER AND SLAVE 4
 		if(flag_send == true && flag_enable_send == true)
 		{
 			//Down-flag for next time.
@@ -501,7 +499,7 @@ int main(void)
 
 			TX_CAN_HEADER.StdId = 0x000; //Send to all
 			uint8_t RunCode;
-			RunCode = '5'; // RunCode for Motor5
+			RunCode = '5'; // RunCode for Motor2
 			if(HAL_CAN_AddTxMessage(&hcan, &TX_CAN_HEADER, &RunCode, &TxMailBox)==HAL_OK)
 			{
 				HAL_GPIO_TogglePin(purple_led1_GPIO_Port, purple_led1_Pin);

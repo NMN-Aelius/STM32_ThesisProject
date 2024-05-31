@@ -7656,3 +7656,81 @@ Command-line arguments:  -os win32 -ws win32 -arch x86_64
 
 !ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-28 15:04:19.761
 !MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-05-30 15:12:04.057 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-30 15:12:28.773
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-30 15:12:28.783
+!MESSAGE Log4j2 initialized with config file D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-30 15:12:41.365
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-05-30 16:25:02.658 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-30 16:25:08.123
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-30 16:25:08.125
+!MESSAGE Log4j2 initialized with config file D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-30 16:25:15.488
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-05-30 19:41:55.657 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-30 19:42:01.023
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-30 19:42:01.024
+!MESSAGE Log4j2 initialized with config file D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-30 19:42:08.523
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2024-05-31 10:23:42.447 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-31 10:24:04.655
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-31 10:24:04.664
+!MESSAGE Log4j2 initialized with config file D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-31 10:24:16.454
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2024-05-31 10:24:54.556
+!MESSAGE Indexed 'DATN_STM32_SLAVE_UMM' (21 sources, 109 headers) in 3.94 sec: 9,901 declarations; 51,273 references; 11 unresolved inclusions; 959 syntax errors; 1,322 unresolved names (2.1%)
+!SESSION 2024-05-31 13:19:02.526 -----------------------------------------------
+eclipse.buildId=Version 1.14.1
+java.version=17.0.8.1
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2024-05-31 13:19:19.790
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2024-05-31 13:19:19.796
+!MESSAGE Log4j2 initialized with config file D:\ROBOT_RICLAB\4_Chuong_trinh_do_an_STM_DCK\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2024-05-31 13:19:28.051
+!MESSAGE Started RMI Server, listening on port 41337
