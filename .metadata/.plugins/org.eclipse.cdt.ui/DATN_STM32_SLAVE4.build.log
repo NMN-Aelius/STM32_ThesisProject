@@ -1,10 +1,10 @@
-13:21:50 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE4 ****
+10:03:51 **** Incremental Build of configuration Debug for project DATN_STM32_SLAVE4 ****
 make -j16 all 
 arm-none-eabi-size  DATN_STM32_SLAVE4.elf 
    text	   data	    bss	    dec	    hex	filename
-  23576	    116	   2364	  26056	   65c8	DATN_STM32_SLAVE4.elf
+  22612	    108	   2348	  25068	   61ec	DATN_STM32_SLAVE4.elf
 Finished building: default.size.stdout
  
 
-13:21:50 Build Finished. 0 errors, 0 warnings. (took 616ms)
+10:03:51 Build Finished. 0 errors, 0 warnings. (took 261ms)
 

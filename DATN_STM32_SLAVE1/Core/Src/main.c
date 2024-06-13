@@ -130,46 +130,46 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-//=================STEP MOTOR ENCODER (Checked)
-uint8_t getCheckSum(uint8_t *buffer,uint8_t size)
-{
-	uint16_t sum=0;
-	for(uint8_t i = 0 ;i < size;i++)
-	{
-		sum += buffer[i];
-	}
-	return(sum&0xFF);
-}
-void ReadUart(uint8_t l_sAddress)
-{
-	TxDataUart[0] = 0xFA;
-	TxDataUart[1] = l_sAddress;
-	TxDataUart[2] = 0x31; // Position read mode int32 (4 bytes data last)
-	TxDataUart[3] = 0;
-	TxDataUart[3] = getCheckSum(TxDataUart,TxBufferSize-1);
-
-	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
-}
-int32_t DecodeData(uint8_t *input)
-{
-	int32_t readValue = (int32_t)(
-			((uint32_t)input[0] << 24)    |
-			((uint32_t)input[1] << 16)    |
-			((uint32_t)input[2] << 8)     |
-			((uint32_t)input[3] << 0));
-	return readValue;
-}
+////=================STEP MOTOR ENCODER (Checked)
+//uint8_t getCheckSum(uint8_t *buffer,uint8_t size)
+//{
+//	uint16_t sum=0;
+//	for(uint8_t i = 0 ;i < size;i++)
+//	{
+//		sum += buffer[i];
+//	}
+//	return(sum&0xFF);
+//}
+//void ReadUart(uint8_t l_sAddress)
+//{
+//	TxDataUart[0] = 0xFA;
+//	TxDataUart[1] = l_sAddress;
+//	TxDataUart[2] = 0x31; // Position read mode int32 (4 bytes data last)
+//	TxDataUart[3] = 0;
+//	TxDataUart[3] = getCheckSum(TxDataUart,TxBufferSize-1);
+//
+//	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
+//}
+//int32_t DecodeData(uint8_t *input)
+//{
+//	int32_t readValue = (int32_t)(
+//			((uint32_t)input[0] << 24)    |
+//			((uint32_t)input[1] << 16)    |
+//			((uint32_t)input[2] << 8)     |
+//			((uint32_t)input[3] << 0));
+//	return readValue;
+//}
 
 //=================ENCODER DATA (Checked)
 void EncodeDataDC(uint8_t dataSend[])
 {
-	ReadUart(1);
-	if(Check_Data == 1) // du lieu hop le ?
-	{
-		Check_Data = 0;
-		float Position = (float)(DecodeData(&RxSaveUart[5]));
-		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
-	}
+//	ReadUart(1);
+//	if(Check_Data == 1) // du lieu hop le ?
+//	{
+//		Check_Data = 0;
+//		float Position = (float)(DecodeData(&RxSaveUart[5]));
+//		Angle = (Position*PosToDeg*100)/1 - resetAngle; // INT
+//	}
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
 
@@ -203,7 +203,7 @@ void EncodeDataAC(uint8_t dataSend[])
 }
 
 //=================TIMER4 COUNTER MODE DELAY (checked)
-void delay_us (uint16_t us)
+void delay_us (uint16_t us) // tri hoan us
 {
 	__HAL_TIM_SET_COUNTER(&htim4,0);
 	while (__HAL_TIM_GET_COUNTER(&htim4) < us);
@@ -307,29 +307,29 @@ void Control_Motor(float DELTA)
 	}
 }
 
-//=================TIMER1 TIMER MODE SAMPLE TIME (checked)
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if(HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize) == HAL_OK)
-	{
-		if(RxDataUart[0] == 251 && RxDataUart[1] == 1 && RxDataUart [2] == 49)
-		{
-			Check_Data = 1;
-			RxSaveUart[3] = RxDataUart[3];
-			RxSaveUart[4] = RxDataUart[4];
-			RxSaveUart[5] = RxDataUart[5];
-			RxSaveUart[6] = RxDataUart[6];
-			RxSaveUart[7] = RxDataUart[7];
-			RxSaveUart[8] = RxDataUart[8];
-			RxSaveUart[9] = getCheckSum(RxDataUart, RxBufferSize-1);
-		}
-		else
-		{
-			memset(RxSaveUart, 0x00,  RxBufferSize);
-			ReadUart(1);
-		}
-	}
-}
+////=================TIMER1 TIMER MODE SAMPLE TIME (checked)
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//	if(HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize) == HAL_OK)
+//	{
+//		if(RxDataUart[0] == 251 && RxDataUart[1] == 1 && RxDataUart [2] == 49)
+//		{
+//			Check_Data = 1;
+//			RxSaveUart[3] = RxDataUart[3];
+//			RxSaveUart[4] = RxDataUart[4];
+//			RxSaveUart[5] = RxDataUart[5];
+//			RxSaveUart[6] = RxDataUart[6];
+//			RxSaveUart[7] = RxDataUart[7];
+//			RxSaveUart[8] = RxDataUart[8];
+//			RxSaveUart[9] = getCheckSum(RxDataUart, RxBufferSize-1);
+//		}
+//		else
+//		{
+//			memset(RxSaveUart, 0x00,  RxBufferSize);
+//			ReadUart(1);
+//		}
+//	}
+//}
 
 //=================TIMER1 TIMER MODE SAMPLE TIME (checked)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
@@ -351,7 +351,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 //=================TIMER2 EXTERNAL COUNTER MODE ENCODER (Checked)
-//void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM2)
@@ -438,9 +437,9 @@ int main(void)
 	HAL_TIM_Base_Start(&htim4);
 	HAL_TIM_Base_Start_IT(&htim1);
 
-	//========UART
-	HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize);
-	HAL_Delay(100);
+//	//========UART
+//	HAL_UART_Receive_IT(&huart1, RxDataUart, RxBufferSize);
+//	HAL_Delay(100);
 
 	//========ENCODER
 	HAL_TIM_Encoder_Start_IT(&htim2, TIM_CHANNEL_1|TIM_CHANNEL_2);

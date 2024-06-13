@@ -133,49 +133,10 @@ static void MX_USART1_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-////=================STEP MOTOR ENCODER (Checked)
-//uint8_t getCheckSum(uint8_t *buffer,uint8_t size)
-//{
-//	uint16_t sum=0;
-//	for(uint8_t i = 0 ;i < size;i++)
-//	{
-//		sum += buffer[i];
-//	}
-//	return(sum&0xFF);
-//}
-//void ReadUart(uint8_t l_sAddress)
-//{
-//	TxDataUart[0] = 0xFA;
-//	TxDataUart[1] = l_sAddress;
-//	TxDataUart[2] = 0x31; // Position read mode int32 (4 bytes data last)
-//	TxDataUart[3] = 0;
-//	TxDataUart[3] = getCheckSum(TxDataUart,TxBufferSize-1);
-//
-//	HAL_UART_Transmit_IT(&huart1, TxDataUart, TxBufferSize);
-//	//	HAL_UART_Transmit_DMA(&huart1, TxDataUart, TxBufferSize);
-//	//	HAL_UART_Transmit(&huart1, TxDataUart, TxBufferSize, 1);
-//}
-//int32_t DecodeData(uint8_t *input)
-//{
-//	int32_t readValue = (int32_t)(
-//			((uint32_t)input[0] << 24)    |
-//			((uint32_t)input[1] << 16)    |
-//			((uint32_t)input[2] << 8)     |
-//			((uint32_t)input[3] << 0));
-//	return readValue;
-//}
-//
 //=================ENCODER DATA (Checked)
 void EncodeDataDC(uint8_t dataSend[])
 {
-//	ReadUart(1);
-//	if(Check_Data == 1) // du lieu hop le ?
-//	{
-//		Check_Data = 0;
-//		// Convert 5th RxSaveUart data to position
-//		float Position = (float)(DecodeData(&RxSaveUart[5]));
-//		Angle = -((Position*PosToDeg*100)/1 - resetAngle); // INT
-//	}
+
 	int IntValue = abs(Angle/100);
 	int DecValue = abs(Angle%100);
 
@@ -309,7 +270,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		countSampleTime++;
 		countSendData++;
-		countEncoder++;
 		if(countSampleTime == 30)
 		{
 			flag_timer1 = true;
@@ -319,11 +279,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			flag_enable_send = true;
 			countSendData = 0;
-		}
-		if(countEncoder == 15)
-		{
-			countEncoder = 0;
-			flag_getEncoderStep = true;
 		}
 	}
 }
